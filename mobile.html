@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#1d443e"><meta name="description" content="五天四晚的每日行程、餐厅导航与点菜建议。">
+ <title>张家界五天攻略｜手机版</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="mobile.css">
+ <script src="trip-data.js"></script><script src="app.js" defer></script>
+</head>
+<body class="mobile-guide">
+ <a class="skip" href="#day-content">跳到当天攻略</a>
+ <header class="topbar"><a href="#top" class="brand"><span class="brand-mark">山</span><span data-bind="title">旅行攻略</span></a></header>
+ <main>
+  <section class="hero" id="top">
+   <div class="hero-copy"><p class="eyebrow" data-bind="dateLabel"></p><h1 data-bind="title"></h1><p class="hero-subtitle" data-bind="subtitle"></p><p class="hero-summary" data-bind="summary"></p><div class="hero-pills"><span data-bind="party"></span><span>五天四晚</span><span data-bind="mealNote"></span></div></div>
+   <svg class="mountains" viewBox="0 0 650 420" aria-hidden="true" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#819790"/><stop offset="1" stop-color="#274f47"/></linearGradient><linearGradient id="mist" x2="0" y2="1"><stop stop-color="#e7f0e8" stop-opacity="0"/><stop offset="1" stop-color="#e7f0e8" stop-opacity=".35"/></linearGradient></defs><g fill="#567970" opacity=".55"><path d="M80 420 90 200 118 183 125 60 160 33 181 53 191 156 216 166 236 420Z"/><path d="M214 420 229 221 249 210 260 96 285 74 306 92 315 244 342 420Z"/><path d="M400 420 416 158 440 143 448 52 471 29 496 50 507 253 536 420Z"/><path d="M544 420 551 185 579 162 594 66 616 43 645 63 660 420Z"/></g><g fill="url(#stone)"><path d="M119 420 129 291 154 267 167 129 197 103 219 115 235 258 254 278 277 420Z"/><path d="M316 420 333 219 355 200 360 69 385 51 409 79 414 254 435 420Z"/><path d="M452 420 461 274 480 251 488 147 512 125 539 144 550 276 574 420Z"/></g><g fill="#152f2b"><path d="M0 420 0 310 51 287 75 350 103 323 127 363 160 350 188 420Z"/><path d="M222 420 236 344 268 330 280 241 301 224 325 244 340 370 364 358 384 420Z"/><path d="M526 420 547 350 585 326 600 268 625 250 646 271 650 420Z"/></g><path d="M0 305Q185 249 336 323T650 312V420H0Z" fill="url(#mist)"/><g stroke="#b9c8bd" stroke-opacity=".12"><path d="M181 150 174 380M202 136 217 359M381 98 369 386M396 128 407 342M513 166 506 383"/></g></svg>
+  </section>
+  <nav class="day-tabs" id="day-tabs" aria-label="选择日期"></nav>
+  <div class="day-heading" id="day-content"><div><p class="eyebrow" id="day-date"></p><h2 id="day-title"></h2></div><p id="day-meal-summary"></p></div>
+  <div class="day-layout">
+   <section id="meals" class="meal-section" aria-labelledby="meal-title"><div class="section-heading"><h2 id="meal-title">这一餐，怎么吃</h2><span>特色 · 点菜 · 出发</span></div><div id="meal-content"></div></section>
+   <aside class="day-aside"><section id="route" class="panel" aria-labelledby="route-title"><div class="section-heading"><h2 id="route-title">今天怎么走</h2></div><p class="small-note">具体出发与集合钟点，以导游通知为准。</p><ol class="route-list" id="route-content"></ol></section><section id="stay" class="panel" aria-labelledby="hotel-title"><div class="section-heading"><h2 id="hotel-title">今晚住哪里</h2></div><div id="hotel-content"></div></section><section id="reminders" class="panel" aria-labelledby="check-title"><div class="section-heading"><h2 id="check-title">出发前记得</h2></div><div id="check-content"></div></section></aside>
+  </div>
+  <section id="setup-error" class="panel" hidden><h2>攻略暂时没有加载出来</h2><p>请刷新页面，或重新打开完整攻略文件夹中的首页。</p></section>
+ </main>
+ <nav class="mobile-nav" aria-label="当天攻略快捷导航"><a href="#meals">吃饭</a><a href="#route">行程</a><a href="#stay">住宿</a><a href="#reminders">提醒</a></nav><footer><span data-bind="title"></span><span>祝一路顺利，好好吃饭，好好看山。</span><a class="desktop-entry" href="index.html">电脑版</a><small>更新于 <span data-bind="updatedAt"></span></small></footer>
+ <div id="toast" class="toast" role="status" aria-live="polite"></div>
+ <noscript>请启用浏览器的脚本功能，以查看日期、导航与点菜建议。</noscript>
+</body></html>

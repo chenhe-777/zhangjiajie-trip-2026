@@ -1,0 +1,38 @@
+/* Compact outing guide; shared trip content is loaded from trip-data.js. */
+html{scroll-padding-top:146px}
+.mobile-guide{font-size:15px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+.mobile-guide .topbar{height:56px;max-width:560px;margin:auto;padding:0 18px}
+.mobile-guide .brand{font-size:14px;gap:9px}.mobile-guide .brand-mark{width:30px;height:30px;font-size:19px}
+.mobile-guide main,.mobile-guide footer{width:calc(100% - 28px);max-width:532px}
+.mobile-guide .hero{min-height:0;margin-top:14px;padding:22px 21px;border-radius:9px}
+.mobile-guide .hero h1{font-size:29px;line-height:1.5;margin:8px 0 7px;max-width:none}
+.mobile-guide .hero-subtitle{font-size:12px;margin:0;letter-spacing:.08em}.mobile-guide .hero-summary,.mobile-guide .hero-pills{display:none}
+.mobile-guide .hero .eyebrow{font-size:11px}.mobile-guide .mountains{width:68%;opacity:.25;right:-45px}
+.mobile-guide .day-tabs{top:56px;gap:4px;padding:10px 0;background:var(--mist);overflow:visible}
+.mobile-guide .day-tabs button{flex:1;min-width:0;padding:10px 3px;text-align:center;min-height:60px}
+.mobile-guide .day-tabs button small{font-size:10px;white-space:normal}.mobile-guide .day-tabs button span{font-size:11px;line-height:1.45}
+.mobile-guide .day-heading{display:block;padding:16px 0 18px}.mobile-guide .day-heading h2{font-size:23px;line-height:1.5}.mobile-guide .day-heading>p{font-size:12px;max-width:none;margin-top:7px}
+.mobile-guide .day-layout{display:flex;flex-direction:column;gap:24px;padding-bottom:28px}.mobile-guide .meal-section,.mobile-guide .day-aside{width:100%;display:block}
+.mobile-guide .section-heading h2{font-size:18px}.mobile-guide .section-heading>span{font-size:10px}
+.mobile-guide .meal-controls{padding:15px;flex-direction:column;align-items:stretch;gap:13px}.mobile-guide .diet-control{align-self:stretch}.mobile-guide .diet-control button{flex:1;font-size:13px;min-height:46px}
+.mobile-guide .confirmed-hotel b{font-size:13px}.mobile-guide .hotel-advice{font-size:12px}
+.mobile-guide .restaurant-card{padding:19px}.mobile-guide .restaurant-top{display:block}.mobile-guide .food-tag{margin-top:8px}
+.mobile-guide .restaurant-card h3{font-size:22px;line-height:1.6}.mobile-guide .restaurant-feature{font-size:14px;line-height:1.9}
+.mobile-guide .dinner-grid{grid-template-columns:1fr;gap:12px}.mobile-guide .order-box,.mobile-guide .budget-box{padding:17px}
+.mobile-guide .order-box ul{font-size:15px}.mobile-guide .order-box h4{font-size:15px}.mobile-guide .order-box p{font-size:12px}
+.mobile-guide .budget-box{display:grid;grid-template-columns:1fr auto;align-items:center}.mobile-guide .budget-box small,.mobile-guide .budget-box p{grid-column:1/-1}.mobile-guide .budget-box p{font-size:11px}
+.mobile-guide .contact-facts{grid-template-columns:1fr}.mobile-guide .contact-facts>div{grid-column:1/-1}.mobile-guide .contact-facts dt{font-size:11px}.mobile-guide .contact-facts dd{font-size:14px}
+.mobile-guide .contact-actions{display:grid;grid-template-columns:1fr 1fr}.mobile-guide .contact-actions button{grid-column:1/-1}.mobile-guide .button{font-size:14px;min-height:48px;padding:10px 8px}
+.mobile-guide .contact-note{font-size:12px}.mobile-guide .panel{padding:21px;scroll-margin-top:0}.mobile-guide .panel+.panel{margin-top:16px}
+.mobile-guide .route-list h3,.mobile-guide .hotel-card h3{font-size:15px}.mobile-guide .route-list p,.mobile-guide .hotel-card p{font-size:13px}
+.mobile-guide .breakfast-box b,.mobile-guide .breakfast-box p,.mobile-guide .stay-tips summary,.mobile-guide .stay-tips ul{font-size:13px}
+.mobile-guide .check-card b{font-size:14px}.mobile-guide .check-card small{font-size:12px}.mobile-guide .check-card input{width:21px;height:21px}
+.mobile-guide .spice-note b,.mobile-guide .spice-note small{font-size:12px}.mobile-guide .spice-note p{font-size:14px}
+.mobile-guide .meal-placeholder p{font-size:14px}.mobile-guide footer{flex-direction:column;align-items:start;gap:8px}
+.mobile-nav{position:fixed;z-index:40;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;display:grid;grid-template-columns:repeat(4,1fr);background:#f3f6f2f5;border-top:1px solid var(--line);backdrop-filter:blur(16px);padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));box-shadow:0 -5px 22px #173d3108}
+.mobile-nav a{display:flex;align-items:center;justify-content:center;min-height:44px;font-size:14px;text-decoration:none;border-radius:5px;color:var(--forest)}.mobile-nav a:hover,.mobile-nav a:focus-visible{background:var(--soft)}
+.mobile-guide .toast{bottom:calc(82px + env(safe-area-inset-bottom,0px))}
+.desktop-entry{font-size:12px;text-underline-offset:4px}
+@media(max-width:360px){.mobile-guide .hero h1{font-size:26px}.mobile-guide .day-tabs button span{font-size:10px}}
+
+.mobile-guide .meal-section{scroll-margin-top:0}
