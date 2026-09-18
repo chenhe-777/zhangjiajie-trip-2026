@@ -15,6 +15,9 @@
  const toast=text=>{$('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>$('#toast').classList.remove('visible'),2300)};
  const dateText=date=>`${Number(date.slice(5,7))}月${Number(date.slice(8,10))}日`;
  const mapUrl=visit=>{
+  if(!Number.isFinite(visit.longitude)||!Number.isFinite(visit.latitude)){
+   return 'https://uri.amap.com/search?'+new URLSearchParams({keyword:`${visit.navigationName} ${visit.address||''}`,city:visit.city||'张家界市',view:'list',src:'travel-guide',callnative:'1'});
+  }
   const q=new URLSearchParams({from:'',to:`${visit.longitude},${visit.latitude},${visit.navigationName}`,mode:'car',src:'travel-guide',callnative:'1'});
   return 'https://uri.amap.com/navigation?'+q;
  };
@@ -23,34 +26,29 @@
   const mild=state.diet==='mild';
   const dishes=mild?v.mildOrder:v.normalOrder;
   return `<article class="restaurant-card ${primary?'primary':''}" data-restaurant-id="${esc(c.id)}">
-   <div class="restaurant-top"><div><p class="card-label">${primary?(mild?'不辣时优先考虑':'今晚推荐'):'换一家也可以'}</p><h3>${esc(c.name)}</h3></div><span class="food-tag">${esc(c.category)}</span></div>
+   <div class="restaurant-top"><div><p class="card-label">${primary?(mild?'不辣时先问这家':'这餐推荐'):'换一家也可以'}</p><h3>${esc(c.name)}</h3></div><span class="food-tag">${esc(c.category)}</span></div>
    <p class="restaurant-feature">${esc(v.feature)}</p>
    <div class="dinner-grid"><section class="order-box"><h4>${mild?'完全不辣，先问这套':'四人先这样点'}</h4><ul>${(dishes||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>${esc(mild?v.mildTip:v.normalTip)}</p></section>
-   <section class="budget-box"><span>四人预算参考</span><strong>${esc(v.budget)}</strong><small>${esc(v.perPerson)}</small><p>按人均估算；实际以菜单、份量和点单为准。</p></section></div>
-   <dl class="contact-facts"><div><dt>导航店名</dt><dd>${esc(v.navigationName||c.name)}</dd></div><div><dt>地址</dt><dd>${esc(c.base?.location)}</dd></div><div><dt>电话</dt><dd><a href="tel:${esc(v.phone)}">${esc(v.phone)}</a></dd></div><div><dt>营业时间</dt><dd>${esc(c.base?.hours)}</dd></div></dl>
-   <div class="contact-actions"><a class="button filled" target="_blank" rel="noopener noreferrer" href="${esc(mapUrl(v))}"><span aria-hidden="true">↗</span> 打开导航</a><a class="button" href="tel:${esc(v.phone)}">拨打电话</a><button class="button" type="button" data-action="copy-address" data-restaurant-id="${esc(c.id)}">复制店名与地址</button></div>
+   <section class="budget-box"><span>四人预算参考</span><strong>${esc(v.budget)}</strong><small>${esc(v.perPerson)}</small><p>${esc(v.budgetNote||'按人均估算；实际以菜单、份量和点单为准。')}</p></section></div>
+   <dl class="contact-facts"><div><dt>地图店名</dt><dd>${esc(v.navigationName||c.name)}</dd></div><div><dt>地址</dt><dd>${esc(c.base?.location)}</dd></div><div><dt>电话</dt><dd>${v.phone?`<a href="tel:${esc(v.phone)}">${esc(v.phone)}</a>`:'号码未查到；请在地图店铺页查看'}</dd></div><div><dt>营业时间</dt><dd>${esc(c.base?.hours)}</dd></div></dl>
+   <div class="contact-actions"><a class="button filled" target="_blank" rel="noopener noreferrer" href="${esc(mapUrl({...v,address:c.base?.location,navigationName:v.navigationName||c.name}))}"><span aria-hidden="true">↗</span> ${Number.isFinite(v.longitude)&&Number.isFinite(v.latitude)?'打开导航':'地图找这家'}</a>${v.phone?`<a class="button" href="tel:${esc(v.phone)}">拨打电话</a>`:''}<button class="button" type="button" data-action="copy-address" data-restaurant-id="${esc(c.id)}">复制店名与地址</button></div>
    <p class="contact-note">${esc(v.contactTip)}</p>
   </article>`;
  };
  const renderMeals=day=>{
-  const meals=data.meals.filter(m=>m.dayId===day.id);
-  const hotelMeal=meals.find(m=>m.hotelId===state.hotelId);
-  if(hotelMeal){
-   const hotels=day.lodging||[];
-   const order=['primary','backup2','backup3'].map(k=>hotelMeal.selected[k]).filter(Boolean);
-   const preferred=state.diet==='mild'?hotelMeal.mildPreferredId:order[0];
-   const all=hotelMeal.candidates||[];
-   const main=all.find(c=>c.id===preferred)||all[0];
-   const alternatives=order.filter(id=>id!==main.id).map(id=>all.find(c=>c.id===id)).filter(Boolean);
-   const hotel=hotels.find(h=>h.id===state.hotelId);
-   const hotelControl=data.trip.confirmedHotelId?`<div class="confirmed-hotel"><small>今晚从这里出发</small><b>${esc(hotel?.name)}</b></div>`:`<label for="hotel-select">今晚入住<select id="hotel-select" aria-label="今晚实际入住酒店">${hotels.map(h=>`<option value="${esc(h.id)}" ${h.id===state.hotelId?'selected':''}>${esc(h.name)}</option>`).join('')}</select></label>`;
-   $('#meal-content').innerHTML=`<div class="meal-controls">${hotelControl}<div class="diet-control" role="group" aria-label="选择今晚辣度"><button type="button" data-action="set-diet" data-diet="normal" aria-pressed="${state.diet==='normal'}">正常点菜</button><button type="button" data-action="set-diet" data-diet="mild" aria-pressed="${state.diet==='mild'}">完全不辣</button></div></div>
-    <p class="hotel-advice">${esc(hotelMeal.hotelAdvice)}</p>
-    ${state.diet==='mild'?`<div class="spice-note"><b>点单时这样说</b><p>${esc(data.trip.noSpiceRequest)}</p><small>有这些菜品线索，仍要店员确认今天有售、能完全不放辣；不要只说“微辣”。</small></div>`:''}
-    ${restaurantCard(main,true)}<details class="alternatives"><summary>查看另外两家餐厅 <span aria-hidden="true">＋</span></summary><div>${alternatives.map(c=>restaurantCard(c)).join('')}</div></details>`;
-  } else {
-   $('#meal-content').innerHTML=meals.map(m=>`<article class="meal-placeholder"><span class="food-tag">${m.included?'已包含':'按当天安排'}</span><h3>${esc(m.label)}</h3><p>${esc(m.publicNote||m.note)}</p>${m.included?'':'<small>具体餐厅后续补充。</small>'}</article>`).join('')||'<p class="small-note">用餐按当天行程安排。</p>';
-  }
+  const meals=data.meals.filter(m=>m.dayId===day.id&&(!m.hotelId||m.hotelId===state.hotelId));
+  const hotel=(day.lodging||[])[0];
+  const diet=`<div class="meal-controls"><div class="confirmed-hotel"><small>${day.id==='d5'?'今天返程':'今晚已定住宿'}</small><b>${esc(hotel?.name||'按班次送机／送站')}</b></div><div class="diet-control" role="group" aria-label="选择用餐辣度"><button type="button" data-action="set-diet" data-diet="normal" aria-pressed="${state.diet==='normal'}">正常点菜</button><button type="button" data-action="set-diet" data-diet="mild" aria-pressed="${state.diet==='mild'}">完全不辣</button></div></div>`;
+  const spice=state.diet==='mild'?`<div class="spice-note"><b>点单时这样说</b><p>${esc(data.trip.noSpiceRequest)}</p><small>先请店员确认今天有售、能完全不放辣；不要只说“微辣”。包含的团餐也提前说。</small></div>`:'';
+  $('#meal-content').innerHTML=diet+spice+meals.map(m=>{
+   const all=m.candidates||[];
+   const order=['primary','backup2','backup3'].map(k=>m.selected?.[k]).filter(Boolean);
+   const preferred=state.diet==='mild'?m.mildPreferredId:order[0];
+   const main=all.find(c=>c.id===preferred)||all.find(c=>c.id===order[0])||all[0];
+   const alternatives=all.filter(c=>c.id!==main?.id);
+   const plan=m.actionPlan?`<aside class="meal-plan"><h4>${esc(m.actionPlan.title)}</h4><p>${esc(m.actionPlan.note)}</p>${m.actionPlan.phone?`<div class="contact-actions"><a class="button" href="tel:${esc(m.actionPlan.phone)}">电话确认酒店晚餐</a></div>`:''}</aside>`:'';
+   return `<section class="meal-block" data-meal-id="${esc(m.id)}"><div class="meal-intro"><span class="food-tag">${m.included?'已包含':'自理'}</span><h3>${esc(m.publicLabel||m.label)}</h3><p>${esc(m.publicNote||m.hotelAdvice||m.note)}</p></div>${main?restaurantCard(main,true):''}${alternatives.length?`<details class="alternatives"><summary>查看另外${alternatives.length===2?'两':alternatives.length}家餐厅 <span aria-hidden="true">＋</span></summary><div>${alternatives.map(c=>restaurantCard(c)).join('')}</div></details>`:''}${plan}</section>`;
+  }).join('');
  };
  const renderLodging=day=>{
   const lodgings=day.lodging||[];
@@ -85,7 +83,7 @@
   if(button.dataset.action==='set-diet'){state.diet=button.dataset.diet==='mild'?'mild':'normal';save();render();return}
   if(button.dataset.action==='copy-address'){
    const c=data.meals.flatMap(m=>m.candidates||[]).find(c=>c.id===button.dataset.restaurantId);if(!c)return;
-   const ok=await copyText(`${c.visit.navigationName}\n${c.base.location}\n电话：${c.visit.phone}`);toast(ok?'已复制店名、地址和电话':'未能自动复制，请长按店名与地址复制。');
+   const ok=await copyText(`${c.visit.navigationName||c.name}\n${c.base.location}${c.visit.phone?'\n电话：'+c.visit.phone:''}`);toast(ok?'已复制店名与地址':'未能自动复制，请长按店名与地址复制。');
   }
  });
  document.addEventListener('change',event=>{
